@@ -7,6 +7,8 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { JwtModule } from '@nestjs/jwt';
 import { JWTsecret } from './db_conection/constants';
+import { APP_GUARD } from '@nestjs/core';
+import { RolesGuard } from './db_conection/decorators/guards/role.guards';
 
 
 @Module({
@@ -18,6 +20,12 @@ import { JWTsecret } from './db_conection/constants';
     
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+  {
+    provide: APP_GUARD,
+    useClass: RolesGuard,
+    }, 
+  ],
 })
 export class AppModule {}

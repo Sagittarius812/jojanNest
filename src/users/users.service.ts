@@ -1,18 +1,16 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { eq } from 'drizzle-orm';
 import { NeonDatabase } from 'drizzle-orm/neon-serverless';
-import { usersTable } from 'src/db/schema';
+import { rolesTable, usersTable } from 'src/db/schema';
 import { PG_CONNECTION } from 'src/db_conection/constants';
 
 type User = {
     id: number;
     name: string;
     lastname: string | null;
-    age: number;
     email: string;
     password: string;
-    created_at: Date | null;
-    role_id: number;
+    role: string;
 }
 
 
@@ -24,8 +22,16 @@ export class UsersService {
 
     async findone(email: string): Promise<User | undefined> {
 
-        const result =await this.db.select()
+        const result =await this.db.select({
+            id: usersTable.id,
+            email: usersTable.email,
+            password: usersTable.password,
+            name: usersTable.name,
+            lastname: usersTable.lastname,
+            role: rolesTable.name
+        })
         .from(usersTable)
+        .innerJoin(rolesTable, eq(rolesTable.id, usersTable.role_id))
         .where(eq(usersTable.email, email));
 
         return result[0];

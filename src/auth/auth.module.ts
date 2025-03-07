@@ -12,7 +12,7 @@ import { UsersModule } from 'src/users/users.module';
     DrizzleModule,
     JwtModule.register({
           global: true,
-          secret: JWTsecret,  
+          secret: JWTsecret,
         }),
 
   ],

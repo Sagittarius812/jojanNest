@@ -5,6 +5,7 @@ import { UsersService } from 'src/users/users.service';
 import * as  argon2 from "argon2"
 import { JwtService } from '@nestjs/jwt';
 import { access } from 'fs';
+import { Role } from 'src/types';
 
 @Injectable()
 export class AuthService {
@@ -28,13 +29,12 @@ export class AuthService {
             throw new UnauthorizedException('contraseña incorrecta');
         }
 
-        const payload = {sub: user.id};
+        const payload = {sub: user.id, role: user.role};
 
         return {
             access_token: await this.jwtService.signAsync(payload, {expiresIn: 60*60}),
         };
         
     }
-
 
 }

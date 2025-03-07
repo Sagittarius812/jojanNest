@@ -2,6 +2,8 @@ import { Body, Controller, Get, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 import { usersTable } from './db/schema';
 import { timestamp } from 'drizzle-orm/mysql-core';
+import { Roles } from './db_conection/decorators/role.decorators';
+import { Role } from './types';
 
 export class CreateUserDto{
   name: string
@@ -21,6 +23,7 @@ export class AppController {
     return this.appService.getUsers();
   }
     @Post()
+    @Roles(Role.Admin)
   CreateUsers(@Body() CrearUsuario: CreateUserDto){
     return this.appService.CreateUsers(CrearUsuario);
 

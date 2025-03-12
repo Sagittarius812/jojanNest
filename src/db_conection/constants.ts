@@ -5,5 +5,5 @@ export const JWTsecret = process.env.JWT_SECRET;
 
 export enum Role{
     User = 'user',
-    Admin = 'admin',
+    ADMIN = 'ADMIN',
 }
